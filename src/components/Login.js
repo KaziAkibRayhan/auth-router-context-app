@@ -1,12 +1,23 @@
-import React from "react";
+import { useContext } from "react";
+import { AuthContext } from "../contexts/UserContext";
 
 const Login = () => {
+  const { signInUser } = useContext(AuthContext);
+  console.log("sign in", signInUser);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+
+    signInUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log("Sign In User: ", user);
+      })
+      .catch((error) => console.error(error));
   };
   return (
     <div>
@@ -41,7 +52,7 @@ const Login = () => {
                   className="input input-bordered"
                 />
                 <label className="label">
-                  <a href="#" className="label-text-alt link link-hover">
+                  <a href="/" className="label-text-alt link link-hover">
                     Forgot password?
                   </a>
                 </label>
